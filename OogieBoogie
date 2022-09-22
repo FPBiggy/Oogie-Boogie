@@ -1,0 +1,102 @@
+public function postToDiscord()
+    {
+        //You can see how to get the webhookurl here: https://help.dashe.io/en/articles/2521940-how-to-create-a-discord-webhook-url
+        $webhookurl = "####";
+
+        $timestamp = date("c", strtotime("now"));
+
+        $json_data = json_encode([
+            // Message
+            "content" => "In order to create forums, you must have the @Post Creation role, which can only be obtained after you read the following.
+            1.) Do not abuse permissions to create forums, if caught, punishment will be taken
+            2.) Do not disrespect other members inside the forums, even if a discussion is getting heated, always have a respectful manner
+            3.) If your permissions to create forums has been taken away, you will not be able to earn them back until you have proven you can earn them back. If you beg for them to be given back, this will only make your situation worse.
+            - (Short Version): Do not create forums that serve no purpose, if one is caught abusing their permissions to create forums it will be taken away. Further consequences may be taken but it varies case to case. When using forums, do not forget to delete them after they've served its purpose. Always make sure you're being respectful to other people in forums as well, as being rude or disrespectful to other people.
+            - In order to get the forum creation role, react to the emoji below.",
+
+            // Username
+            "username" => "Oogie Boogie",
+
+            // Text-to-speech
+            "tts" => false,
+
+            // File upload
+            // "file" => "",
+
+            // Embeds Array
+            "embeds" => [
+                [
+                    // Embed Title
+                    "title" => "FORUM GUIDELINES",
+
+                    // Embed Type
+                    "type" => "rich",
+
+                    // Embed Description
+                    "description" => "description",
+
+                    // URL of title link
+                    "url" => "https://gist.github.com/mytruong-z",
+
+                    // Timestamp of embed must be formatted as ISO8601
+                    "timestamp" => $timestamp,
+
+                    // Embed left border color in HEX
+                    "color" => hexdec( "0e2433" ),
+
+                    // Author
+                    "author" => [
+                        "name" => "Oogie Boogie",
+                        "url" => " "
+                    ],
+
+                    // Additional Fields array
+                    "fields" => [
+                        // Field 1
+                        [
+                            "name"   => "Account",
+                            "value"  => "Nongdan02",
+                            "inline" => false
+                        ],
+                        // Field 2
+                        [
+                            "name"   => "Health",
+                            "value"  => "1000",
+                            "inline" => false
+                        ],
+                        // Field 3
+                        [
+                            "name"   => "SLP",
+                            "value"  => "1000",
+                            "inline" => false
+                        ],
+                        // Field 4
+                        [
+                            "name"   => "Level Pet",
+                            "value"  => "20",
+                            "inline" => true
+                        ],
+                        // Field 5
+                        [
+                            "name"   => "Rank",
+                            "value"  => "1230",
+                            "inline" => true
+                        ]
+                    ]
+                ]
+            ]
+
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+
+        $ch = curl_init( $webhookurl );
+        curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
+        curl_setopt( $ch, CURLOPT_POST, 1);
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $json_data);
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt( $ch, CURLOPT_HEADER, 0);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $response = curl_exec( $ch );
+        curl_close( $ch );
+        return $response;
+    }
